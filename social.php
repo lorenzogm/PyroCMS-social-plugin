@@ -40,7 +40,7 @@ class Plugin_Social extends Plugin
 					'via' => array(
 						'type' => 'text',
 						'flags' => '@mention',
-						'default' => 'PetBabysitter',
+						'default' => 'lckamal',
 						'required' => false
 					),
 					'url' => array (
@@ -76,6 +76,58 @@ class Plugin_Social extends Plugin
 						'required' => false
 					)
 				)
+			),
+			'gplus' => array(
+				'description' => array(
+					'en' => 'Google plug plugin to share feeds'
+				),
+				'single' => true,
+				'double' => false,
+				'variables' => 'href|size|annotation|width|align|recommendations|count',
+				'attributes' => array(
+					'href' => array(
+						'type' => 'text',
+						'flags' => '',
+						'default' => 'http://www.lkamal.com.np',
+						'required' => false
+					),
+					'size' => array(
+						'type' => 'text',
+						'flags' => 'small|medium|standard|tall',
+						'default' => 'medium',
+						'required' => true
+					),
+					'annotation' => array(
+						'type' => 'text',
+						'flags' => 'none|bubble|inline',
+						'default' => 'bubble',
+						'required' => false
+					),
+					'width' => array(
+						'type' => 'number',
+						'flags' => '',
+						'default' => '',
+						'required' => false
+					),
+					'align' => array(
+						'type' => 'text',
+						'flags' => 'left|right',
+						'default' => 'left',
+						'required' => false
+					),
+					'recommendations' => array(
+						'type' => 'text',
+						'flags' => 'true|false',
+						'default' => 'true',
+						'required' => false
+					),
+					'count' => array(
+						'type' => 'text',
+						'flags' => 'true|false',
+						'default' => 'true',
+						'required' => false
+					)
+				)
 			)
 		);
 	
@@ -87,7 +139,7 @@ class Plugin_Social extends Plugin
 		$button = ($this->attribute('button')!='') ? $this->attribute('button') : 'share';
 		$text = ($this->attribute('text')!='') ? $this->attribute('text') : '';
 		$url = ($this->attribute('url')!='') ? $this->attribute('url') : '';
-		$via = ($this->attribute('via')!='') ? $this->attribute('via') : 'PetBabysitter';
+		$via = ($this->attribute('via')!='') ? $this->attribute('via') : 'lckamal';
 		$lang = ($this->attribute('size')!='') ? $this->attribute('lang') : 'en';
 		$size = ($this->attribute('size')=='large') ? $this->attribute('size') : '';
 		$count = ($this->attribute('count')=='none') ? $this->attribute('count') : '';
@@ -149,7 +201,7 @@ class Plugin_Social extends Plugin
 		$faces = ($this->attribute('faces')!='') ? $this->attribute('faces') : 'false';
 		$colorscheme = ($this->attribute('colorscheme')!='') ? $this->attribute('colorscheme') : 'light';
 		$button = $this->attribute('button') ? $this->attribute('button') : 'like';
-		$layout = $this->attribute('layout') ? $this->attribute('layout') : 'standard';
+		$layout = $this->attribute('layout') ? $this->attribute('layout') : 'button_count';
 
 		if( ! in_array($colorscheme,array('light','dark')))
 		{
@@ -163,12 +215,12 @@ class Plugin_Social extends Plugin
 
 		if ( ! in_array($layout, array('button_count','box_count','standard')))
 		{
-			$button = 'standard';
+			$layout = 'standard';
 		}
 		
 		switch ($button) {
 			case 'like':
-				$plugin = '<div class="fb-like" data-href="'.$href.'" data-send="'.$send.'" data-width="'.$width.'" data-show-faces="'.$faces.'"></div>';
+				$plugin = '<div class="fb-like" data-href="'.$href.'" data-send="'.$send.'" data-width="'.$width.'" data-show-faces="'.$faces.'" data-layout="'.$layout.'"></div>';
 				break;
 			
 			case 'send':
@@ -199,6 +251,49 @@ class Plugin_Social extends Plugin
 			}(document, \'script\', \'facebook-jssdk\'));</script>' . $plugin;
 
 		return $plugin;
+	}
+	
+	/**
+	 * google plus share button plugin
+	 * 
+	 * @author lkamal.com.np - lckamal
+	 * @return string $plugin
+	 */
+	function gplus() {
+		$href = ($this->attribute('href')!='') ? $this->attribute('href') : '';
+		$size = ($this->attribute('size')!='') ? $this->attribute('size') : 'medium';
+		$annotation = ($this->attribute('annotation')!='') ? $this->attribute('annotation') : 'bubble';
+		$width = ($this->attribute('width')!='') ? $this->attribute('width') : '';
+		$align = ($this->attribute('align')!='') ? $this->attribute('align') : 'left';
+		$recommendations = ($this->attribute('recommendations')!='') ? $this->attribute('recommendations') : 'true';
+		$count = ($this->attribute('count')=='none') ? $this->attribute('count') : '';
+		$lang = ($this->attribute('lang')!='') ? $this->attribute('lang') : 'en-US';
+		
+		$plugin = '<!-- Place this tag where you want the +1 button to render. -->
+			<div class="g-plusone" 
+				data-size="'.$size.'" 
+				data-href="'.$href.'" 
+				data-annotation="'.$annotation.'" 
+				data-width="'.$width.'" 
+				data-recommendations="'.$recommendations.' 
+				data-count="'.$count.'>
+			</div>
+			
+			<!-- Place this tag after the last +1 button tag. -->
+			<script type="text/javascript">
+			window.___gcfg = {
+			    lang: \'en-US\',
+			    parsetags: \'onload\'
+			  };
+			  
+			  (function() {
+			    var po = document.createElement(\'script\'); po.type = \'text/javascript\'; po.async = true;
+			    po.src = \'https://apis.google.com/js/plusone.js\';
+			    var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(po, s);
+			  })();
+			</script>';
+			
+			return $plugin;
 	}
 
 }

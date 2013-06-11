@@ -107,3 +107,56 @@ This is not required, but it gives you a clean code
 </table>				
 
 {{ social:facebook href="https://github.com/willaser/PyroCMS-social-plugin" send="true" witdh="500" }}
+
+### Google plus
+
+[Google plus one button](https://developers.google.com/+/web/+1button/)
+
+{{ social:gplus href="" size="" annotation="" width="" align="" recommendations="" count=""}}
+
+<table>
+	<tr>
+		<td>Attribute</td>
+		<td>Value</td>
+		<td>Description</td>
+		<td>Default</td>
+	</tr>
+	<tr>
+		<td>href</td>
+		<td>url</td>
+		<td>Link to plug</td>
+		<td>Current URL</td>
+	</tr>
+	<tr>
+		<td>size</td>
+		<td>text</td>
+		<td>Size of button, options:(small|medium|standard|tall)</td>
+		<td>medium</td>
+	</tr>
+	<tr>
+		<td>annotation</td>
+		<td>text</td>
+		<td>Annotation of button, options: (none|bubble|inline)td>
+		<td>false</td>
+	</tr>
+	<tr>
+		<td>width</td>
+		<td>int</td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>align</td>
+		<td>text</td>
+		<td>Alignment of button, options: (left|right)</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>count</td>
+		<td>text</td>
+		<td>Plus count, options(true|false)</td>
+		<td></td>
+	</tr>
+</table>				
+
+{{ social:gplus href="https://github.com/lckamal/PyroCMS-social-plugin" count="true" }}
